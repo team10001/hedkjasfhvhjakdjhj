@@ -1,5 +1,3 @@
-const Discord = require('discord.js');
-const client = new Discord.Client();
 const Discord = require("discord.js");
 const ytdl = require("ytdl-core");
 const { Client, Util } = require('discord.js');
@@ -9,6 +7,16 @@ const YouTube = require('simple-youtube-api');
 const youtube = new YouTube("AIzaSyAdORXg7UZUo7sePv97JyoDqtQVi3Ll0b8");
 const queue = new Map();
 const client = new Discord.Client();
+
+/*
+packages:
+npm install discord.js
+npm install ytdl-core
+npm install get-youtube-id
+npm install youtube-info
+npm install simple-youtube-api
+npm install queue
+*/
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
@@ -36,9 +44,10 @@ client.user.setGame(`Nothing`,"http://twitch.tv/S-F")
   console.log('')
 });
 
+
 const prefix = "+"
-client.on('message', async msg => { 
-	
+client.on('message', async msg => {
+
 	if (msg.author.bot) return undefined;
 
 	if (!msg.content.startsWith(prefix)) return undefined;
@@ -47,21 +56,21 @@ client.on('message', async msg => {
 
 	const url = args[1] ? args[1].replace(/<(.+)>/g, '$1') : '';
 	const serverQueue = queue.get(msg.guild.id);
-	
+
 	let command = msg.content.toLowerCase().split(" ")[0];
 	command = command.slice(prefix.length)
-	
+
 	if (command === `play`) {
 		const voiceChannel = msg.member.voiceChannel;
 		if (!voiceChannel) return msg.channel.send('You should be in a voice channel');
 		const permissions = voiceChannel.permissionsFor(msg.client.user);
 		if (!permissions.has('CONNECT')) {
-			//by ,$ ReBeL Ø¡ , ðŸ”•#4777 'CODES SERVER'
+			//by ,$ ReBeL ء , 🔕#4777 'CODES SERVER'
 			return msg.channel.send('i have no perms to get in this room');
-		}//by ,$ ReBeL Ø¡ , ðŸ”•#4777 'CODES SERVER'
+		}//by ,$ ReBeL ء , 🔕#4777 'CODES SERVER'
 		if (!permissions.has('SPEAK')) {
 			return msg.channel.send('i have no perms to speak in this room');
-		}//by ,$ ReBeL Ø¡ , ðŸ”•#4777 'CODES SERVER'
+		}//by ,$ ReBeL ء , 🔕#4777 'CODES SERVER'
 
 		if (!permissions.has('EMBED_LINKS')) {
 			return msg.channel.sendMessage("**i should have `EMBED LINKS` perm**")
@@ -70,7 +79,7 @@ client.on('message', async msg => {
 		if (url.match(/^https?:\/\/(www.youtube.com|youtube.com)\/playlist(.*)$/)) {
 			const playlist = await youtube.getPlaylist(url);
 			const videos = await playlist.getVideos();
-			//by ,$ ReBeL Ø¡ , ðŸ”•#4777 'CODES SERVER'
+			//by ,$ ReBeL ء , 🔕#4777 'CODES SERVER'
 			for (const video of Object.values(videos)) {
 				const video2 = await youtube.getVideoByID(video.id); // eslint-disable-line no-await-in-loop
 				await handleVideo(video2, msg, voiceChannel, true); // eslint-disable-line no-await-in-loop
@@ -90,7 +99,7 @@ ${videos.map(video2 => `[**${++index} **] \`${video2.title}\``).join('\n')}`)
 
 					.setFooter("Brix")
 					msg.channel.sendEmbed(embed1).then(message =>{message.delete(20000)})
-					
+
 					// eslint-disable-next-line max-depth
 					try {
 						var response = await msg.channel.awaitMessages(msg2 => msg2.content > 0 && msg2.content < 11, {
@@ -118,7 +127,7 @@ ${videos.map(video2 => `[**${++index} **] \`${video2.title}\``).join('\n')}`)
 		serverQueue.connection.dispatcher.end('skepped');
 		return undefined;
 	} else if (command === `stop`) {
-		
+
 		if (!msg.member.voiceChannel) return msg.channel.send('you are not in a voice channel');
 		if (!serverQueue) return msg.channel.send('there is no thing to stop');
 		serverQueue.songs = [];
@@ -129,19 +138,19 @@ ${videos.map(video2 => `[**${++index} **] \`${video2.title}\``).join('\n')}`)
 		if (!serverQueue) return msg.channel.send('there is no thing playing');
 		if (!args[1]) return msg.channel.send(`:loud_sound: volume **${serverQueue.volume}**`);
 		serverQueue.volume = args[1];
-		
+
 		serverQueue.connection.dispatcher.setVolumeLogarithmic(args[1] / 50);
-		return msg.channel.send(`:speaker: ØªÙ… ØªØºÙŠØ± Ø§Ù„ØµÙˆØª Ø§Ù„ÙŠ **${args[1]}**`);
+		return msg.channel.send(`:speaker: تم تغير الصوت الي **${args[1]}**`);
 	} else if (command === `np`) {
 		if (!serverQueue) return msg.channel.send('there is no thing playing');
 		const embedNP = new Discord.RichEmbed()
 	.setDescription(`:notes: playing : **${serverQueue.songs[0].title}**`)
 		return msg.channel.sendEmbed(embedNP);
 	} else if (command === `queue`) {
-		
+
 		if (!serverQueue) return msg.channel.send('there is no thing playing');
 		let index = 0;
-		
+
 		const embedqu = new Discord.RichEmbed()
 
 .setDescription(`**Songs Queue**
@@ -235,23 +244,23 @@ const devs = ['274923685985386496'];
 client.on('message', message => {
   var argresult = message.content.split(` `).slice(1).join(' ');
     if (!devs.includes(message.author.id)) return;
-    
+
 if (message.content.startsWith(adminprefix + 'setgame')) {
   client.user.setGame(argresult);
-    message.channel.sendMessage(`**${argresult} ØªÙ… ØªØºÙŠÙŠØ± Ø¨Ù„Ø§ÙŠÙ†Ù‚ Ø§Ù„Ø¨ÙˆØª Ø¥Ù„Ù‰ **`)
-} else 
+    message.channel.sendMessage(`**${argresult} تم تغيير بلاينق البوت إلى **`)
+} else
   if (message.content.startsWith(adminprefix + 'setname')) {
 client.user.setUsername(argresult).then
-    message.channel.sendMessage(`**${argresult}** : ØªÙ… ØªØºÙŠÙŠØ± Ø£Ø³Ù… Ø§Ù„Ø¨ÙˆØª Ø¥Ù„Ù‰`)
-return message.reply("**Ù„Ø§ ÙŠÙ…ÙƒÙ†Ùƒ ØªØºÙŠÙŠØ± Ø§Ù„Ø§Ø³Ù… ÙŠØ¬Ø¨ Ø¹Ù„ÙŠÙƒ Ø§Ù„Ø§Ù†ØªØ¸Ø¢Ø± Ù„Ù…Ø¯Ø© Ø³Ø§Ø¹ØªÙŠÙ��� . **");
+    message.channel.sendMessage(`**${argresult}** : تم تغيير أسم البوت إلى`)
+return message.reply("**لا يمكنك تغيير الاسم يجب عليك الانتظآر لمدة ساعتين . **");
 } else
   if (message.content.startsWith(adminprefix + 'setavatar')) {
 client.user.setAvatar(argresult);
-  message.channel.sendMessage(`**${argresult}** : ØªÙ… ØªØºÙŠØ± ØµÙˆØ±Ø© Ø§Ù„Ø¨ÙˆØª`);
-      } else     
+  message.channel.sendMessage(`**${argresult}** : تم تغير صورة البوت`);
+      } else
 if (message.content.startsWith(adminprefix + 'setT')) {
   client.user.setGame(argresult, "https://www.twitch.tv/idk");
-    message.channel.sendMessage(`**ØªÙ… ØªØºÙŠÙŠØ± ØªÙˆÙŠØªØ´ Ø§Ù„Ø¨ÙˆØª Ø¥Ù„Ù‰  ${argresult}**`)
+    message.channel.sendMessage(`**تم تغيير تويتش البوت إلى  ${argresult}**`)
 }
 
 });
@@ -261,22 +270,19 @@ client.on("message", message => {
   const embed = new Discord.RichEmbed()
       .setColor("#000000")
       .setDescription(`
-${prefix}play 
-${prefix}skip 
-${prefix}pause
-${prefix}resume
-${prefix}vol
-${prefix}stop
-${prefix}np â‡ 
-${prefix}queue 
+${prefix}play ⇏ لتشغيل أغنية برابط أو بأسم
+${prefix}skip ⇏ لتجاوز الأغنية الحالية
+${prefix}pause ⇏ ايقاف الأغنية مؤقتا
+${prefix}resume ⇏ لمواصلة الإغنية بعد ايقافها مؤقتا
+${prefix}vol ⇏ لتغيير درجة الصوت 100 - 0
+${prefix}stop ⇏ لإخرآج البوت من الروم
+${prefix}np ⇏ لمعرفة الأغنية المشغلة حاليا
+${prefix}queue ⇏ لمعرفة قائمة التشغيل
 
  `)
    message.channel.sendEmbed(embed)
-    
+
    }
-   }); 
-   
-	client.login("ØªÙˆÙƒÙ† Ø¨ÙˆØªÙƒ");
+   });
 
-
-client.login(process.env.BOT_TOKEN);
+     client.login(process.env.BOT_TOKEN);
